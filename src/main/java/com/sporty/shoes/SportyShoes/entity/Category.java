@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Table(name="category_tab")
 public class Category {
 @Id
-@GeneratedValue(strategy = GenerationType.AUTO)
+@GeneratedValue(strategy = GenerationType.IDENTITY)
 private int Id;
 @Column(name="cat_name")
 private String name;

@@ -9,7 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,7 +30,7 @@ public class Product {
 	private Date createdAt;
 	@Column(name="product_price")
 	private BigDecimal price;
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="product_category")
 	private Category category;
 

@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Table(name="admin_tab")
 public class Admin {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int adminId;
 	@Column(name="admin_name")
 	private String admin_name;
