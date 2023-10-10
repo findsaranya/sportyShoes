@@ -1,6 +1,6 @@
-INSERT INTO category_tab(cat_name) VALUES ('category1');
-INSERT INTO category_tab(cat_name) VALUES ('category2');
-INSERT INTO category_tab(cat_name) VALUES ('category3');
-INSERT INTO category_tab(cat_name) VALUES ('category4');
-INSERT INTO category_tab(cat_name) VALUES ('category5');
+INSERT INTO category_tab(cat_name,createdOn) VALUES ('category1',CURDATE());
+INSERT INTO category_tab(cat_name,createdOn) VALUES ('category2',CURDATE());
+INSERT INTO category_tab(cat_name,createdOn) VALUES ('category3',CURDATE());
+INSERT INTO category_tab(cat_name,createdOn) VALUES ('category4',CURDATE());
+INSERT INTO category_tab(cat_name,createdOn) VALUES ('category5',CURDATE());
 INSERT INTO admin_tab(admin_name,admin_password) VALUES ('admin','admin');

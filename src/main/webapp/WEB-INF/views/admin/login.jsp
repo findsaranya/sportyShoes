@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <%--  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>  --%>
-<%--  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>   --%>       
+    
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>  
 <%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
@@ -16,15 +17,15 @@
 ${error}<br>
 <h1>${pageTitle }</h1>
 
-<!-- <form name=frmLogin action="adminloginaction" method="post">
+<form  name="frmLogin" action="loginAction" method="post">
  <table border=1 cellspacing=2 cellpadding=4>
  	<tr>
  		<td width=25%>Admin id*</td>
- 		<td><input name=admin_id maxlength=20></td>
+ 		<td><input name="admin_name" path="admin_name" maxlength="20"/></td>
  	</tr>
  	<tr>
  		<td width=25%>Admin Password*</td>
- 		<td><input name=admin_pwd maxlength=10 type="password"></td>
+ 		<td><input name="password" path="password" maxlength="10" type="password"/></td>
  	</tr>
  	<tr>
  		<td colspan=2>
@@ -32,7 +33,7 @@ ${error}<br>
  		</td>
  	</tr>
  </table>
-</form> -->
+</form>
 
 <jsp:include page="/WEB-INF/views/shared/admin-footer.jsp"></jsp:include>
 </body>

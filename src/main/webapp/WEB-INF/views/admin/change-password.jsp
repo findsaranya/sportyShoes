@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>     
+    pageEncoding="UTF-8"%>   
 <%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
@@ -10,28 +8,29 @@
 <title>Admin - Change Password</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/view/components/admin-header.jsp" ></jsp:include>
-<jsp:include page="/WEB-INF/view/components/admin-topbar.jsp" ></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/admin-header.jsp" ></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/admin-topbar.jsp" ></jsp:include>
 
-${error }
-<form name=frmPwd method=post action="adminchangepwdaction">
-<table border=1 cellspacing=2 cellpadding=4>
+${error}
+<h1>${pageTitle}</h1>
+<form method="post" action="adminchangepwdaction">
+<table border="1" cellspacing="2" cellpadding="4">
  	<tr>
  		<td width=25%>Enter new password*</td>
- 		<td><input name=pwd maxlength=10 type="password"></td>
+ 		<td><input name="pwd" maxlength="10" type="password"></td>
  	</tr>
  	<tr>
  		<td width=25%>Confirm new Password*</td>
- 		<td><input name=pwd2 maxlength=10 type="password"></td>
+ 		<td><input name="confirm" maxlength="10" type="password"></td>
  	</tr>
  	<tr>
  		<td colspan=2>
- 			<button>Login</button>
+ 			<button>Save</button>
  		</td>
  	</tr>
  </table>
 </form>
 
-<jsp:include page="/WEB-INF/view/components/admin-footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/admin-footer.jsp"></jsp:include>
 </body>
 </html>
