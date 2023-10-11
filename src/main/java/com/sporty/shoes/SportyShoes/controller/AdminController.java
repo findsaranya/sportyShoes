@@ -1,13 +1,19 @@
 package com.sporty.shoes.SportyShoes.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sporty.shoes.SportyShoes.entity.Admin;
+import com.sporty.shoes.SportyShoes.entity.Category;
 import com.sporty.shoes.SportyShoes.services.IAdminServiceImpl;
+import com.sporty.shoes.SportyShoes.services.ICategoryImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -17,7 +23,10 @@ import jakarta.servlet.http.HttpSession;
 public class AdminController {
 	
 	@Autowired
-	IAdminServiceImpl adminService;
+	private IAdminServiceImpl adminService;
+	
+	@Autowired
+	private ICategoryImpl categoryService;
 
 	 @RequestMapping(value = "/login", method = RequestMethod.GET)
 	    public String login(ModelMap map, HttpServletRequest request) 
@@ -106,6 +115,86 @@ public class AdminController {
 
 	 }
 	 
+	 @RequestMapping(value = "/admincategories", method = RequestMethod.GET)
+	    public String categories(ModelMap map, HttpServletRequest request) 
+	    {
+		 
+		 HttpSession session = request.getSession();
+		 if (session.getAttribute("adminId") == null) {
+			  return "admin/login";
+		  }
+		  
+		  List<Category> list = categoryService.getAllCategorys();
+		  map.addAttribute("list", list);
+		  map.addAttribute("pageTitle", "ADMIN SETUP PRODUCT CATEGORIES");
+	        return "admin/categories"; 
+	    }
+	 
+	  @RequestMapping(value = "/admineditcat",  method = RequestMethod.GET)
+	    public String editCategory(ModelMap map,  @RequestParam(value="id", required=true) String id,
+	    	HttpServletRequest request) 
+	    {
+		  HttpSession session = request.getSession();
+			 if (session.getAttribute("adminId") == null) {
+				  return "admin/login";
+			  }
+			  
+		  int idValue = Integer.parseInt(id);
+		  Category category = new Category();
+		  if (idValue > 0) {
+			  Optional<Category> result = categoryService.getCategoryInfo(idValue);
+			 if(result.isPresent()) {
+				 category = result.get();
+			 }		
+		  }
+		  map.addAttribute("category", category);
+		  map.addAttribute("pageTitle", "ADMIN EDIT PRODUCT CATEGORY");
+	        return "admin/edit-category"; 
+	    }		  
+
+	  @RequestMapping(value = "/admineditcataction", method = RequestMethod.POST)
+	    public String updateCategory(ModelMap map,HttpServletRequest request)
+	    {
+		  HttpSession session = request.getSession();
+			 if (session.getAttribute("adminId") == null) {
+				  return "admin/login";
+			  }
+			  
+		  String id = request.getParameter("id");
+		  String name = request.getParameter("name");
+		  
+		  int idValue = Integer.parseInt(id); 
+		  
+		  if (name == null || name.equals("") ) { 
+			  map.addAttribute("error", "Error, A category name must be specified");
+			  return "redirect:admineditcat?id="+id;
+		  }
+		  	Category category = new Category();
+		  	category.setCatId(idValue); 
+		  	category.setName(name);
+		  	
+		  	categoryService.updateCategory(category); 
+		  	
+	        return "redirect:admincategories";  
+	    }
+	  
+	  
+	  @RequestMapping(value = "/admindeletecat",  method = RequestMethod.GET)
+	    public String deleteCategory(ModelMap map,  @RequestParam(value="id", required=true) String id,HttpServletRequest request) 
+	    {
+		  HttpSession session = request.getSession();
+			 if (session.getAttribute("adminId") == null) {
+				  return "admin/login";
+			  }
+			  
+		  int idValue = Integer.parseInt(id);
+		  if (idValue > 0) {
+			  categoryService.deleteCategory(idValue);
+		  }
+		  return "redirect:admincategories";
+	    }	
+	 
+	  
 	 @RequestMapping(value = "/adminlogout", method = RequestMethod.GET)
 	    public String adminLogout(ModelMap map,HttpServletRequest request) 
 	    {

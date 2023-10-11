@@ -10,19 +10,19 @@
 <title>Admin - Add/Edit Product Category</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/view/components/admin-header.jsp" ></jsp:include>
-<jsp:include page="/WEB-INF/view/components/admin-topbar.jsp" ></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/admin-header.jsp" ></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/admin-topbar.jsp" ></jsp:include>
 
 <%
 if (request.getParameter("error") != null)
 	out.print(request.getParameter("error"));
 %>
-<form name=frmCat method=post action="admineditcataction">
-	<input type=hidden name=id value=${category.ID}>
+<form name="frmCat" method="post" action="admineditcataction">
+	<input type="hidden" name="id" value="${category.getCatId()}">
 <table border=1 cellspacing=2 cellpadding=4>
  	<tr>
  		<td width=25%>Category name*</td>
- 		<td><input name=name  maxlength=50 value="${category.name}"></td>
+ 		<td><input name="name"  maxlength="50" value="${category.getName()}"></td>
  	</tr>
  	<tr>
  		<td colspan=2>
@@ -32,6 +32,6 @@ if (request.getParameter("error") != null)
  </table>
 </form>
 
-<jsp:include page="/WEB-INF/view/components/admin-footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/admin-footer.jsp"></jsp:include>
 </body>
 </html>

@@ -11,21 +11,25 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name="category_tab")
 public class Category {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
-private int Id;
+private int catId;
 @Column(name="cat_name")
 private String name;
 @Temporal(TemporalType.DATE)
 @Column(name="createdOn")
-private Date createdOn;
+private Date createdOn = new Date();
 }
