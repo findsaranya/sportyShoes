@@ -4,3 +4,4 @@ INSERT INTO category_tab(cat_name,createdOn) VALUES ('category3',CURDATE());
 INSERT INTO category_tab(cat_name,createdOn) VALUES ('category4',CURDATE());
 INSERT INTO category_tab(cat_name,createdOn) VALUES ('category5',CURDATE());
 INSERT INTO admin_tab(admin_name,admin_password) VALUES ('admin','admin');
+INSERT INTO product_tab( product_category, product_price, product_name, addedOn) VALUES (1,123.45,'product1',CURDATE());

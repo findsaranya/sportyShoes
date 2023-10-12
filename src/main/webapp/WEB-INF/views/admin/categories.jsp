@@ -15,10 +15,13 @@
 
 Total Categories: ${list.size()} &nbsp;&nbsp; <a href="admineditcat?id=0">Add Category</a><br>
 <table border=1 cellspacing=2 cellpadding=4>
+ 	<thead>
  	<tr>
- 		<td><b>Category</b></td>
- 		<td></td>
+ 		<th>Category</th>
+ 		<th>Action</th>
  	</tr>
+ 	</thead>
+ 	<tbody>
  	  <c:forEach items="${list}" var="item">
  	  	<tr>
  	  		<td>${item.getName() }</td>
@@ -27,6 +30,7 @@ Total Categories: ${list.size()} &nbsp;&nbsp; <a href="admineditcat?id=0">Add Ca
  	  		</td>
  	  	</tr>
  	  </c:forEach>
+ 	  </tbody>
 </table> 	
 
 <jsp:include page="/WEB-INF/views/shared/admin-footer.jsp"></jsp:include>

@@ -1,5 +1,6 @@
 package com.sporty.shoes.SportyShoes.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sporty.shoes.SportyShoes.entity.Admin;
 import com.sporty.shoes.SportyShoes.entity.Category;
+import com.sporty.shoes.SportyShoes.entity.Product;
 import com.sporty.shoes.SportyShoes.services.IAdminServiceImpl;
 import com.sporty.shoes.SportyShoes.services.ICategoryImpl;
+import com.sporty.shoes.SportyShoes.services.IProductImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -27,6 +30,9 @@ public class AdminController {
 	
 	@Autowired
 	private ICategoryImpl categoryService;
+	
+	@Autowired
+	private IProductImpl prodService;
 
 	 @RequestMapping(value = "/login", method = RequestMethod.GET)
 	    public String login(ModelMap map, HttpServletRequest request) 
@@ -194,6 +200,110 @@ public class AdminController {
 		  return "redirect:admincategories";
 	    }	
 	 
+	  @RequestMapping(value = "/adminproducts", method = RequestMethod.GET)
+	    public String products(ModelMap map,HttpServletRequest request) 
+	    {
+		  HttpSession session = request.getSession();
+			 if (session.getAttribute("adminId") == null) {
+				  return "admin/login";
+			  }
+			  
+		  List<Product> list = prodService.getAllProducts(); 
+		  map.addAttribute("list", list);
+		  map.addAttribute("pageTitle", "ADMIN SETUP PRODUCTS");
+	        return "admin/products"; 
+	    }
+	  
+	  @RequestMapping(value = "/admineditproduct",  method = RequestMethod.GET)
+	    public String editProduct(ModelMap map, @RequestParam(value="id", required=true) String id,HttpServletRequest request) 
+	    {
+		  
+		  HttpSession session = request.getSession();
+			 if (session.getAttribute("adminId") == null) {
+				  return "admin/login";
+			  }
+			   
+			  int idValue = Integer.parseInt(id);
+
+			  
+		  Product product = new Product();
+		  List<Category> catList = categoryService.getAllCategorys();
+		  
+		 
+		  if (idValue > 0) {
+			  Optional<Product> result  = prodService.getProductInfo(idValue);
+			  if(result.isPresent()) {
+				  product = result.get();
+			  }
+		  } 
+
+		  map.addAttribute("product", product);
+		  map.addAttribute("catList", catList);
+		  map.addAttribute("pageTitle", "ADMIN EDIT PRODUCT");
+	        return "admin/edit-product"; 
+	    }		  
+	  
+	  @RequestMapping(value = "/admineditproductaction", method = RequestMethod.POST)
+	    public String updateProduct(ModelMap map,HttpServletRequest request) 
+	    {
+		  HttpSession session = request.getSession();
+			 if (session.getAttribute("adminId") == null) {
+				  return "admin/login";
+			  }
+			   
+		  String name = request.getParameter("name");
+		
+		  String price = request.getParameter("price");
+		  int catId = Integer.parseInt(request.getParameter("category"));
+		  int id = Integer.parseInt(request.getParameter("id"));
+		 
+		  BigDecimal priceValue = new BigDecimal(0.0);
+		  Category cat = new Category();
+		 
+		  if (name == null || name.equals("") || catId == 0 ) { 
+			  map.addAttribute("error", "Error, A product name must be specified or category must be selected");
+			  return "redirect:admineditproduct?id="+id;
+		  }else {
+			  Optional<Category> catDetail  = categoryService.getCategoryInfo(catId);
+			  if(catDetail.isPresent()) {
+				  cat = catDetail.get();
+			  }
+		  }
+	
+		  try {
+			  priceValue = new BigDecimal(price);
+			  
+		  } catch (Exception ex) {
+			  map.addAttribute("error", "Error, Price is invalid");
+			  return "redirect:admineditproduct?id="+id;
+		  }
+		  
+		  	Product product = new Product();
+		  	product.setPoductId(id);
+		  	product.setCategory(cat);
+		  	product.setName(name);
+		  	product.setPrice(priceValue);
+		  	
+		  	prodService.updateProduct(product); 
+		  	
+	        return "redirect:adminproducts"; 
+	    }	
+	   
+	  @RequestMapping(value = "/admindeleteproduct",  method = RequestMethod.GET)
+	    public String deleteProduct(@RequestParam(value="id", required=true) String id,
+	    	HttpServletRequest request) 
+	    {
+		  HttpSession session = request.getSession();
+			 if (session.getAttribute("adminId") == null) {
+				  return "admin/login";
+			  }
+			   
+		  int idValue = Integer.parseInt(id);
+		  if (idValue > 0) {
+			  prodService.deleteProduct(idValue);
+		  }
+		  return "redirect:adminproducts";
+	    }	
 	  
 	 @RequestMapping(value = "/adminlogout", method = RequestMethod.GET)
 	    public String adminLogout(ModelMap map,HttpServletRequest request) 

@@ -10,31 +10,34 @@
 <title>Admin - Add/Edit Product</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/view/components/admin-header.jsp" ></jsp:include>
-<jsp:include page="/WEB-INF/view/components/admin-topbar.jsp" ></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/admin-header.jsp" ></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/admin-topbar.jsp" ></jsp:include>
 
-<%
-if (request.getParameter("error") != null)
-	out.print(request.getParameter("error"));
-%>
+${error}
 
-<form name=frmProduct method=post action="admineditproductaction">
-	<input type=hidden name=id value="${product.ID }">
-<table border=1 cellspacing=2 cellpadding=4>
+<form name="frmProduct" method="post" action="admineditproductaction">
+	<input type="hidden" name="id" value="${product.getPoductId()}">
+<table border="1" cellspacing="2" cellpadding="4">
  	<tr>
  		<td width=25%>Product name*</td>
- 		<td><input name=name  maxlength=100 value="${product.name }"></td>
+ 		<td><input name="name"  maxlength="100" value="${product.getName() }"></td>
  	</tr>
  	<tr>
  		<td width=25%>Price*</td>
- 		<td><input name=price type="numeric"  maxlength=6 value="${product.price }"></td>
+ 		<td><input name="price" type="number"  maxlength="6" value="${product.getPrice()}"></td>
  	</tr>
  	<tr>
  		<td width=25%>Category*</td>
  		<td>
- 			<select name=category>
+ 			<select name="category">
  				<option value="0">Select category</option>
- 				${catDropdown}
+ 				 <c:forEach items="${catList}" var="item">
+ 				<option value="${item.getCatId()}"
+ 				<c:if test="${product.getCategory().getCatId() == item.getCatId()  }">
+ 				selected
+</c:if>
+ 				>${item.getName()} </option>
+ 				 </c:forEach>
  			</select>
  		</td>
  	</tr>
@@ -47,6 +50,6 @@ if (request.getParameter("error") != null)
  </table>
 </form>
 
-<jsp:include page="/WEB-INF/view/components/admin-footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/admin-footer.jsp"></jsp:include>
 </body>
 </html>
