@@ -3,12 +3,13 @@
 <%@ page isELIgnored="false" %>
 
 <a href="home">Home</a> | 
-<% if (session.getAttribute("user_id") == null ) { %>
-	<a href="login">Login/Signup</a> | 
+<%
+if (session.getAttribute("userId") == null ) { %>
+	<a href="userLogin">Login/Signup</a> | 
 <% }  else { %>
-	<a href="dashboard">Dashboard</a> | 
+	<a href="user-dashboard">Dashboard</a> | 
 	<a href="cart">Cart</a> | 
-	<a href="logout">Logout</a>
+	<a href="userlogout">Logout</a>
 	<br>
 	<a href="editprofile">Edit Profile</a> | 
 	<a href="memberpurchases">Your Orders</a> 

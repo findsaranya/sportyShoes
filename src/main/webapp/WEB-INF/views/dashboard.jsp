@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Sporty Shoes</title>
+<title>Sporty Shoes - Dashboard</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/shared/header.jsp" ></jsp:include>

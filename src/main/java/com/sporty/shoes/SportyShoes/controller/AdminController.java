@@ -22,7 +22,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping(value="/admin")
 public class AdminController {
 	
 	@Autowired
