@@ -12,7 +12,6 @@
 <body>
 <jsp:include page="/WEB-INF/views/shared/header.jsp" ></jsp:include>
 <jsp:include page="/WEB-INF/views/shared/topbar.jsp" ></jsp:include>
-
 <table border=1 cellspacing=2 cellpadding=4>
 <thead>
  	<tr>
@@ -29,7 +28,7 @@
  			<td>${item.getPrice() }</td>
  			<td>${item.getCategory().getName()}</td>
  	  		<td>
- 	  			<a href="cartadditem?id=${item.getPoductId()}">Add To Cart</a>
+ 	  			<a href="addTocart?id=${item.getPoductId()}">Add To Cart</a>
  	  		</td>
  	  	</tr>
  	  </c:forEach>

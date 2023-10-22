@@ -10,42 +10,51 @@
 <title>Sporty Shoes - Your Cart</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/view/components/header.jsp" ></jsp:include>
-<jsp:include page="/WEB-INF/view/components/topbar.jsp" ></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/header.jsp" ></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/topbar.jsp" ></jsp:include>
 
-<%
-if (request.getParameter("error") != null)
-	out.print(request.getParameter("error") + "<br>");
-%>
-
+ ${error}
+  <c:if test = "${cartItems.size() > 0}">
 <br><br>Total Cart Value: ${cartValue }<br>
 
 <table border=1 cellspacing=2 cellpadding=4>
+ 	<thead>
  	<tr>
- 		<td><b>Product</b></td>
- 		<td><b>Qty</b></td>
- 		<td><b>Rate</b></td>
- 		<td><b>Price</b></td>
- 		<td></td>
- 	</tr>
+ 		<th>Product</th>
+ 		<th>Qty</th>
+ 		<th>Rate</th>
+ 		<th>GrossTotal</th>
+ 		<th>Add qty</th>
+ 		<th>Dec qty</th>
+ 		<th>Action</th>
+ 		</tr>
+ 	</thead>
+ 	<tbody>
  	<c:forEach items="${cartItems}" var="item">
  	  	<tr>
-	 		<td>${item.name }</td>
- 			<td>${item.rate }</td>
- 			<td>${item.qty}</td>
- 			<td>${item.price}</td>
+	 		<td>${item.getProduct().getName() }</td>
+ 			<td>${item.getProduct().getPrice() }</td>
+ 			<td>${item.getQty()}</td>
+ 			<td>${item.getGrossTotal()}</td>
+ 			<td>
+ 	  			<a href="cartdeleteitem?id=${item.getProduct().getPoductId()}">Increment</a>
+ 	  		</td>
  	  		<td>
- 	  			<a href="cartdeleteitem?id=${item.productId}">Remove</a>
+ 	  			<a href="cartdeleteitem?id=${item.getProduct().getPoductId()}">Decrement</a>
+ 	  		</td>
+ 	  		<td>
+ 	  			<a href="cartdeleteitem?id=${item.getProduct().getPoductId()}">Remove</a>
  	  		</td>
  	  	</tr>
  	  </c:forEach>
+ 	  </tbody>
 </table> 		
 
 <br>
  <c:if test = "${cartItems.size() > 0}">
 	<a href="checkout">Checkout Now</a>
 </c:if>
-
-<jsp:include page="/WEB-INF/view/components/footer.jsp"></jsp:include>
+</c:if>
+<jsp:include page="/WEB-INF/views/shared/footer.jsp"></jsp:include>
 </body>
 </html>

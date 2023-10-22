@@ -29,7 +29,7 @@
  			<td>${item.getPrice() }</td>
  			<td>${item.getCategory().getName()}</td>
  	  		<td>
- 	  			<a href="cartadditem?id=${item.getPoductId()}">Add To Cart</a>
+ 	  			<a href="addTocart?id=${item.getPoductId()}">Add To Cart</a>
  	  		</td>
  	  	</tr>
  	  </c:forEach>

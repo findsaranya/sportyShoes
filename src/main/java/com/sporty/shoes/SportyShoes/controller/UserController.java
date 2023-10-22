@@ -43,7 +43,7 @@ public class UserController {
 				 HttpSession session = req.getSession();
 				 session.setAttribute("userLoggedIn", true);
 				 session.setAttribute("userId", result.getUserId());
-			        return "dashboard"; 
+			    return "redirect:user-dashboard"; 
 		 }else {
 			 map.addAttribute("error","EmailId or password can't be empty");
 			 return "login";
