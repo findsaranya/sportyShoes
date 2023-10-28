@@ -1,6 +1,9 @@
 package com.sporty.shoes.SportyShoes.controller;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.sporty.shoes.SportyShoes.entity.Admin;
 import com.sporty.shoes.SportyShoes.entity.Category;
 import com.sporty.shoes.SportyShoes.entity.Product;
+import com.sporty.shoes.SportyShoes.entity.PurchaseOrder;
+import com.sporty.shoes.SportyShoes.entity.User;
 import com.sporty.shoes.SportyShoes.services.IAdminServiceImpl;
 import com.sporty.shoes.SportyShoes.services.ICategoryImpl;
+import com.sporty.shoes.SportyShoes.services.IPOService;
 import com.sporty.shoes.SportyShoes.services.IProductImpl;
+import com.sporty.shoes.SportyShoes.services.IUserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -32,6 +39,13 @@ public class AdminController {
 	
 	@Autowired
 	private IProductImpl prodService;
+	
+	@Autowired
+	private IUserService userService;
+	
+	@Autowired
+	private IPOService poService;
+	
 
 	 @RequestMapping(value = "/login", method = RequestMethod.GET)
 	    public String login(ModelMap map, HttpServletRequest request) 
@@ -303,6 +317,92 @@ public class AdminController {
 		  }
 		  return "redirect:adminproducts";
 	    }	
+	  
+	  @RequestMapping(value = "/adminmembers", method = RequestMethod.GET)
+	    public String members(ModelMap map,HttpServletRequest request) 
+	    {
+		 
+		  HttpSession session = request.getSession();
+			 if (session.getAttribute("adminId") == null) {
+				  return "admin/login";
+			  }
+		  List<User> list = userService.getAllUsers();
+		  
+		  map.addAttribute("list", list);
+		  map.addAttribute("pageTitle", "ADMIN BROWSE MEMBERS");
+	        return "admin/members"; 
+	    }
+	  
+	  @RequestMapping(value = "/searchUser", method = RequestMethod.GET)
+	    public String searchMembers(ModelMap map,HttpServletRequest request) 
+	    {
+		 
+		  HttpSession session = request.getSession();
+			 if (session.getAttribute("adminId") == null) {
+				  return "admin/login";
+			  }
+			 String fname = request.getParameter("fname");
+			 String lname= request.getParameter("lname");
+		  List<User> list = userService.searchUserByName(fname, lname);
+		  
+		  map.addAttribute("list", list);
+		  map.addAttribute("pageTitle", "ADMIN BROWSE MEMBERS");
+	        return "admin/members"; 
+	    }
+	  
+	  @RequestMapping(value = "/searchPO", method = RequestMethod.GET)
+	    public String searchPO(ModelMap map,HttpServletRequest request) 
+	    {
+		 
+		  HttpSession session = request.getSession();
+			 if (session.getAttribute("adminId") == null) {
+				  return "admin/login";
+			  }
+			 String poDate = request.getParameter("poDate");
+			 String catId= request.getParameter("category");
+			 System.out.println("date "+poDate);
+			 Date purchaseDate = null;
+			 java.sql.Date dateSql = null;
+			  List<Category> catList = categoryService.getAllCategorys();
+			 if(poDate != null && catId != null && !catId.equals("")) {
+				  try {
+					purchaseDate =new SimpleDateFormat("dd-MM-yyy").parse(poDate);
+					 dateSql = new java.sql.Date(purchaseDate.getTime());
+					 List<Object> list = poService.searchPOBasedOnDateAndCategory(dateSql, Integer.parseInt(catId));
+					 list.stream().forEach(x -> System.out.println(x)); 
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					purchaseDate =  null;
+					e.printStackTrace();
+					
+				}  
+				 
+			 }
+			
+		  map.addAttribute("list", null);
+		  map.addAttribute("catList",catList);
+		  map.addAttribute("pageTitle", "ADMIN BROWSE MEMBERS");
+	        return "admin/members"; 
+	    }
+	  
+	  @RequestMapping(value = "/adminpurchases", method = RequestMethod.GET)
+	    public String purchases(ModelMap map,HttpServletRequest request) 
+	    {
+		  
+		  HttpSession session = request.getSession();
+		  BigDecimal total = BigDecimal.ZERO;
+			 if (session.getAttribute("adminId") == null) {
+				  return "admin/login";
+			  }
+		  List<PurchaseOrder> poList = poService.getAllPurchaseOrders();
+		  total = poList.stream().map(PurchaseOrder::getGrossTotal).reduce(BigDecimal.ZERO, BigDecimal::add);
+		  List<Category> catList = categoryService.getAllCategorys();
+		  map.addAttribute("list", poList);
+		  map.addAttribute("totalAmount",total);
+		  map.addAttribute("catList",catList);
+		  map.addAttribute("pageTitle", "ADMIN PURCHASES REPORT");
+	        return "admin/purchases"; 
+	    }
 	  
 	 @RequestMapping(value = "/adminlogout", method = RequestMethod.GET)
 	    public String adminLogout(ModelMap map,HttpServletRequest request) 

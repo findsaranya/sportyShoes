@@ -50,4 +50,9 @@ public class UserService implements IUserService {
 		return userRepo.findByEmailId(emailId);
 	}
 
+	@Override
+	public List<User> searchUserByName(String fname, String lname) {
+		return userRepo.searchByFnameOrLname(fname, lname);
+	}
+
 }

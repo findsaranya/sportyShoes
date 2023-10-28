@@ -10,9 +10,14 @@
 <title>Admin - Browse Members</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/view/components/admin-header.jsp" ></jsp:include>
-<jsp:include page="/WEB-INF/view/components/admin-topbar.jsp" ></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/admin-header.jsp" ></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/admin-topbar.jsp" ></jsp:include>
 
+<form action="searchUser">
+<input name="fname" placeholder="search by first name"/>
+<input name="lname" placeholder="search by last name"/>
+<input type="submit" value="search"/>
+</form>
 Total Members: ${list.size() }
 
 <table border=1 cellspacing=2 cellpadding=4>
@@ -25,11 +30,11 @@ Total Members: ${list.size() }
  	</tr>
  	<c:forEach items="${list}" var="item">
  	  	<tr>
-	 		<td>${item.fname}&nbsp;${item.lname }</td>
- 			<td>${item.email}</td>
- 			<td>${item.dateAdded}</td>
- 			<td>${item.age}</td>
- 			<td>${item.address}</td>
+	 		<td>${item.getFname()}&nbsp;${item.getLname() }</td>
+ 			<td>${item.getEmailId()}</td>
+ 			<td>${item.getCreatedOn()}</td>
+ 			<td>${item.getAge()}</td>
+ 			<td>${item.getAddress()}</td>
  			
  	  	</tr>
  	  </c:forEach>
@@ -37,6 +42,6 @@ Total Members: ${list.size() }
 	
 
 
-<jsp:include page="/WEB-INF/view/components/admin-footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/admin-footer.jsp"></jsp:include>
 </body>
 </html>

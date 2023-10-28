@@ -7,10 +7,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.sporty.shoes.SportyShoes.entity.PurchaseItem;
 import com.sporty.shoes.SportyShoes.repository.IPurchaseItemsRepo;
-
+@Service
 public class PurchaseItemService implements IPurchaseItemService {
 
 	@Autowired

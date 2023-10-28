@@ -8,7 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,15 +27,16 @@ public class PurchaseItem {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private int itemId;
-@OneToOne
+@ManyToOne()
 @JoinColumn(name = "productId")
 private Product product;
 @Column(name="qty")
 private int qty;
-@OneToOne
-@JoinColumn(name="purchase_order_Id")
-private PurchaseOrder purchaseOrder;
 @Column(name="price")
 private BigDecimal totalPrice;
+@ManyToOne
+@JoinColumn(name="POID")
+private PurchaseOrder po;
+
 
 }

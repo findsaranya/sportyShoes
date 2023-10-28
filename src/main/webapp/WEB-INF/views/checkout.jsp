@@ -10,13 +10,13 @@
 <title>Sporty Shoes - Checkout</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/view/components/header.jsp" ></jsp:include>
-<jsp:include page="/WEB-INF/view/components/topbar.jsp" ></jsp:include>
-
+<jsp:include page="/WEB-INF/views/shared/header.jsp" ></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/topbar.jsp" ></jsp:include>
+<h1>${pageTitle}</h1>
 <br><br>
 Your Total Order is worth ${cartValue}<br><br>
 
 <a href="gateway">Pay via secure Payment Gateway</a>
-<jsp:include page="/WEB-INF/view/components/footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/shared/footer.jsp"></jsp:include>
 </body>
 </html>

@@ -163,8 +163,7 @@ public class UserController {
 			  map.addAttribute("pageTitle", "SPORTY SHOES - PROFILE UPDATE");
 		        return "register"; 
 	  }
-	 
-	 
+	 	 
 	 @RequestMapping(value = "/userlogout", method = RequestMethod.GET)
 	    public String adminLogout(ModelMap map,HttpServletRequest request) 
 	    {

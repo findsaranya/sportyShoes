@@ -13,4 +13,5 @@ public interface IUserService {
 	String deleteUser(int UserId);
 	User checkUser(String emailId,String password);
 	User checkEmailExists(String emailId);
+	List<User> searchUserByName(String fname,String lname);
 }
